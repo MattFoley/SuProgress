@@ -5,8 +5,27 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ *  This is enum handles the state of the SuProgressBars currently in play
+ */
+typedef NS_ENUM(NSUInteger, SuProgressBarViewAnimationStyle) {
+    /**
+     *  Determinate iOS 7 navigation bar style.
+     */
+    SuProgressAnimationDeterminateNavigation,
+    /**
+     *  Indeterminate atom style animation.
+     */
+    SuProgressAnimationAtom,
+
+};
+
+
 @class AFHTTPRequestOperation;
 @class SuProgressBarView;
+
+//Nifty, forward protocol declarations are valid.
+@protocol SuProgressManagerDelegate;
 
 /**
  *  This is your main interface for accessing SuProgress awesome capabilities.
@@ -24,7 +43,8 @@
  *  @param void creationBlock Create all of your NSURLConnections in this block
  *
  */
-- (void)connectionCreationBlock:(void(^)(void))creationBlock;
+- (void)progressWithStyle:(SuProgressBarViewAnimationStyle)style
+           forConnections:(void(^)(void))creationBlock;
 
 /**
  *  Call this method **after** you have set the UIWebVIews delegate.
@@ -48,6 +68,6 @@
  *
  *  @return Progress bar contained in your View Controller's view.
  */
-- (SuProgressBarView *)progressBar;
+- (id<SuProgressManagerDelegate>)progressViewWithStyle:(SuProgressBarViewAnimationStyle)style;
 
 @end

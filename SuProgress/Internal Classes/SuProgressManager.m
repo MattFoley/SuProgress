@@ -4,10 +4,12 @@
 //  Heavily rewritten for cleaner code styling and pedantic stuff by Tj Fallon
 
 #import "SuProgressManager.h"
+#import "UIViewController+SuProgress.h"
 
 @interface SuProgressManager ()
 
 @property NSMutableArray *singleUses;
+@property SuProgressBarViewAnimationStyle animationStyle;
 
 @end
 

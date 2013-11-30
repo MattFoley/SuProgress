@@ -6,10 +6,16 @@
 #import <Foundation/Foundation.h>
 #import "SuProgress.h"
 
+@class SuProgressManager;
+
 @protocol SuProgressManagerDelegate <NSObject>
 
-- (void)progressed:(float)progress;
+@property (nonatomic, strong) SuProgressManager *manager;
+
 - (void)finished;
+
+@optional
+- (void)progressed:(float)progress;
 
 @end
 

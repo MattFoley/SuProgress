@@ -13,6 +13,8 @@
 #import "NSURLConnection+SuProgress.h"
 #import "SuProgressBarView.h"
 
+#import "SuProgressAtomView.h"
+
 #import <objc/runtime.h>
 
 static NSInteger const kSuProgressBarViewTag            = 51381;
@@ -30,7 +32,9 @@ static const char *SuAFHTTPRequestOperationViewControllerKey;
 
 @implementation UIViewController (SuProgress)
 
-- (void)connectionCreationBlock:(void(^)(void))block {
+- (void)progressWithStyle:(SuProgressBarViewAnimationStyle)style
+           forConnections:(void(^)(void))creationBlock
+{
     Class class = [NSURLConnection class];
     id methods = @[@"initWithRequest:delegate:startImmediately:", @"initWithRequest:delegate:"];
     
@@ -40,8 +44,8 @@ static const char *SuAFHTTPRequestOperationViewControllerKey;
         method_exchangeImplementations(original, swizzle);
     }
     
-    [SuProgressManager setCurrentManager:[self progressBar].manager];
-    block();
+    [SuProgressManager setCurrentManager:[self progressViewWithStyle:style].manager];
+    creationBlock();
     [SuProgressManager setCurrentManager:nil];
     
     for (id method in methods) {
@@ -77,7 +81,26 @@ static UIColor *SuProgressBarColor(UIView *bar) {
     return bar.tintColor;
 }
 
-- (SuProgressBarView *)progressBar {
+- (id<SuProgressManagerDelegate>)progressViewWithStyle:(SuProgressBarViewAnimationStyle)style
+{
+    switch (style) {
+        case SuProgressAnimationDeterminateNavigation:
+        {
+            return [self progressBar];
+            break;
+        }
+        case SuProgressAnimationAtom:
+        {
+            return [self progressAtom];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (id<SuProgressManagerDelegate>)progressBar
+{
     UIView *bar = nil;
     if (self.navigationController && self.navigationController.navigationBar) {
         UINavigationBar *navbar = self.navigationController.navigationBar;
@@ -91,10 +114,27 @@ static UIColor *SuProgressBarColor(UIView *bar) {
             [navbar addSubview:bar];
         }
     } else {
-
         NSLog(@"Sorry dude, I haven't written code that supports showing progress in this configuration yet! Fork and help?");
     }
+    
     return (id)bar;
+}
+
+- (id<SuProgressManagerDelegate>)progressAtom
+{
+    UIView *atom = nil;
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    
+    atom = [keyWindow viewWithTag:kSuProgressBarViewTag];
+    if (!atom) {
+        atom = [[SuProgressAtomView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
+        atom.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        atom.tag = kSuProgressBarViewTag;
+        [atom setCenter:keyWindow.center];
+        [keyWindow addSubview:atom];
+    }
+    
+    return (id)atom;
 }
 
 - (void)proxyProgressForWebView:(UIWebView *)webView
@@ -112,14 +152,16 @@ static UIColor *SuProgressBarColor(UIView *bar) {
 static void SuAFURLHTTPRequest_operationDidStart(id self, SEL _cmd)
 {
     UIViewController *vc = objc_getAssociatedObject(self, &SuAFHTTPRequestOperationViewControllerKey);
-    [vc connectionCreationBlock:^{
-        Class superclass = NSClassFromString(@"AFHTTPRequestOperation");
-        void (*superIMP)(id, SEL) = (void *)[superclass instanceMethodForSelector:@selector(operationDidStart)];
-        superIMP(self, _cmd);
-    }];
+    [vc progressWithStyle:SuProgressAnimationDeterminateNavigation
+           forConnections:^{
+               Class superclass = NSClassFromString(@"AFHTTPRequestOperation");
+               void (*superIMP)(id, SEL) = (void *)[superclass instanceMethodForSelector:@selector(operationDidStart)];
+               superIMP(self, _cmd);
+           }];
 }
 
-- (void)proxyProgressForAFHTTPRequestOperation:(id)operation {
+- (void)proxyProgressForAFHTTPRequestOperation:(id)operation
+{
     Class AFHTTPRequestOperation = NSClassFromString(@"AFHTTPRequestOperation");
     
     if (![operation isKindOfClass:AFHTTPRequestOperation]) {

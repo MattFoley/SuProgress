@@ -16,6 +16,10 @@ NSInteger const kSuProgressBarHeight             = 2;
 @end
 
 @implementation SuProgressBarView
+
+//Oddly enough, protocol declared properties must still be synthesized
+@synthesize manager = _manager;
+
 - (id)init
 {
     self = [super initWithFrame:CGRectZero];
@@ -78,8 +82,6 @@ NSInteger const kSuProgressBarHeight             = 2;
         
         self.frame = (CGRect){self.frame.origin, 0, self.frame.size.height};
     }
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     CGSize sz = self.superview.bounds.size;
     NSTimeInterval duration = 0.3;

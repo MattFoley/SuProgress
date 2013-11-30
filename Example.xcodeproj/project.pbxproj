@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		370B0E6B184906BB0042799D /* SuProgressAtomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 370B0E6A184906BB0042799D /* SuProgressAtomView.m */; };
+		370B0E73184917C60042799D /* CAAnimation+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 370B0E72184917C60042799D /* CAAnimation+Blocks.m */; };
 		37D717CB181F0AC300C0BFEE /* UIViewController+SuProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D717CA181F0AC300C0BFEE /* UIViewController+SuProgress.m */; };
 		37D717E3181F19C500C0BFEE /* SuProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D717DE181F19C500C0BFEE /* SuProgress.m */; };
 		37D717E4181F19C500C0BFEE /* SuProgressNSURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D717E0181F19C500C0BFEE /* SuProgressNSURLConnection.m */; };
@@ -18,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		370B0E69184906BB0042799D /* SuProgressAtomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuProgressAtomView.h; path = "Progress Types/SuProgressAtomView.h"; sourceTree = "<group>"; };
+		370B0E6A184906BB0042799D /* SuProgressAtomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SuProgressAtomView.m; path = "Progress Types/SuProgressAtomView.m"; sourceTree = "<group>"; };
+		370B0E71184917C60042799D /* CAAnimation+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAAnimation+Blocks.h"; sourceTree = "<group>"; };
+		370B0E72184917C60042799D /* CAAnimation+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+Blocks.m"; sourceTree = "<group>"; };
 		37D717C9181F0AC300C0BFEE /* UIViewController+SuProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+SuProgress.h"; path = "SuProgress/UIViewController+SuProgress.h"; sourceTree = "<group>"; };
 		37D717CA181F0AC300C0BFEE /* UIViewController+SuProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+SuProgress.m"; path = "SuProgress/UIViewController+SuProgress.m"; sourceTree = "<group>"; };
 		37D717DD181F19C500C0BFEE /* SuProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuProgress.h; sourceTree = "<group>"; };
@@ -47,9 +53,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		370B0E6F184917C60042799D /* Third Part Categories */ = {
+			isa = PBXGroup;
+			children = (
+				370B0E70184917C60042799D /* CAAnimationBlocks */,
+			);
+			name = "Third Part Categories";
+			path = "SuProgress/Third Part Categories";
+			sourceTree = "<group>";
+		};
+		370B0E70184917C60042799D /* CAAnimationBlocks */ = {
+			isa = PBXGroup;
+			children = (
+				370B0E71184917C60042799D /* CAAnimation+Blocks.h */,
+				370B0E72184917C60042799D /* CAAnimation+Blocks.m */,
+			);
+			path = CAAnimationBlocks;
+			sourceTree = "<group>";
+		};
 		37D717CC181F0ACF00C0BFEE /* SuProgress */ = {
 			isa = PBXGroup;
 			children = (
+				370B0E6F184917C60042799D /* Third Part Categories */,
 				37D717DA181F19C500C0BFEE /* Internal Classes */,
 				37D717C9181F0AC300C0BFEE /* UIViewController+SuProgress.h */,
 				37D717CA181F0AC300C0BFEE /* UIViewController+SuProgress.m */,
@@ -64,6 +89,8 @@
 				37D717DC181F19C500C0BFEE /* Progress Types */,
 				37D717E9181F1AAD00C0BFEE /* SuProgressManager.h */,
 				37D717EA181F1AAD00C0BFEE /* SuProgressManager.m */,
+				370B0E69184906BB0042799D /* SuProgressAtomView.h */,
+				370B0E6A184906BB0042799D /* SuProgressAtomView.m */,
 				37D717EC181F1EC200C0BFEE /* SuProgressBarView.h */,
 				37D717ED181F1EC200C0BFEE /* SuProgressBarView.m */,
 			);
@@ -169,7 +196,9 @@
 				37D717EE181F1EC200C0BFEE /* SuProgressBarView.m in Sources */,
 				37D717E4181F19C500C0BFEE /* SuProgressNSURLConnection.m in Sources */,
 				37D717E8181F19DA00C0BFEE /* NSURLConnection+SuProgress.m in Sources */,
+				370B0E73184917C60042799D /* CAAnimation+Blocks.m in Sources */,
 				37D717E3181F19C500C0BFEE /* SuProgress.m in Sources */,
+				370B0E6B184906BB0042799D /* SuProgressAtomView.m in Sources */,
 				63614CAD17F477B50038C686 /* example.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

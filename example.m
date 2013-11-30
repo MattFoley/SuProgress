@@ -9,9 +9,9 @@
     UIViewController *connectionsViewController;
     UIViewController *webViewController;
     NSMutableDictionary *datas;
-  #ifdef _AFNETWORKING_
+#ifdef _AFNETWORKING_
     UIViewController *afnetworkingController;
-  #endif
+#endif
     UITextView *textView;
     UIWebView *webView;
 }
@@ -24,41 +24,74 @@
 
 - (void)demoConnections {
     textView.text = nil;
-
-    id urls = @[
-        @"http://mobilemakers.co",
-        @"http://theverge.com",
-        @"http://mxcl.github.io/images/TDAndroid_big.png",
-        @"https://www.google.com/#q=foo",
-        @"http://brew.sh",
-        @"http://placekitten.com/450/450",
-        @"http://digg.com",
-        @"https://abs.twimg.com/a/1382379960/images/resources/twitter-bird-white-on-blue.png"
-    ];
     
-    [connectionsViewController connectionCreationBlock:^{
-        datas = [NSMutableDictionary new];
-        for (id urlstr in urls) {
-            id url = [NSURL URLWithString:urlstr];
-            id rq = [NSURLRequest requestWithURL:url];
-            [NSURLConnection connectionWithRequest:rq delegate:self];
-            datas[url] = [NSMutableData new];
-        }
-    }];
-
-//    [connectionsViewController SuProgressURLConnectionsCreatedInBlock:^{
-//        __block int count = [urls count];
-//        for (id urlstr in urls) {
-//            id url = [NSURL URLWithString:urlstr];
-//            id rq = [NSURLRequest requestWithURL:url];
-//            
-//            [NSURLConnection sendAsynchronousRequest:rq queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//                [self appendText:[NSString stringWithFormat:@"Loaded: %@ (%d bytes)", url, [data length]]];
-//                if (--count == 0)
-//                    [self appendText:@"Done"];
-//            }];
-//        }
-//    }]
+    id urls = @[
+                @"http://mobilemakers.co",
+                @"http://theverge.com",
+                @"http://mxcl.github.io/images/TDAndroid_big.png",
+                @"https://www.google.com/#q=foo",
+                @"http://brew.sh",
+                @"http://placekitten.com/450/450",
+                @"http://digg.com",
+                @"https://abs.twimg.com/a/1382379960/images/resources/twitter-bird-white-on-blue.png",
+                @"http://mobilemakers.co",
+                @"http://theverge.com",
+                @"http://mxcl.github.io/images/TDAndroid_big.png",
+                @"https://www.google.com/#q=foo",
+                @"http://brew.sh",
+                @"http://placekitten.com/450/450",
+                @"http://digg.com",
+                @"https://abs.twimg.com/a/1382379960/images/resources/twitter-bird-white-on-blue.png",
+                @"http://mobilemakers.co",
+                @"http://theverge.com",
+                @"http://mxcl.github.io/images/TDAndroid_big.png",
+                @"https://www.google.com/#q=foo",
+                @"http://brew.sh",
+                @"http://placekitten.com/450/450",
+                @"http://digg.com",
+                @"https://abs.twimg.com/a/1382379960/images/resources/twitter-bird-white-on-blue.png",
+                @"http://mobilemakers.co",
+                @"http://theverge.com",
+                @"http://mxcl.github.io/images/TDAndroid_big.png",
+                @"https://www.google.com/#q=foo",
+                @"http://brew.sh",
+                @"http://placekitten.com/450/450",
+                @"http://digg.com",
+                @"https://abs.twimg.com/a/1382379960/images/resources/twitter-bird-white-on-blue.png",
+                @"http://mobilemakers.co",
+                @"http://theverge.com",
+                @"http://mxcl.github.io/images/TDAndroid_big.png",
+                @"https://www.google.com/#q=foo",
+                @"http://brew.sh",
+                @"http://placekitten.com/450/450",
+                @"http://digg.com",
+                @"https://abs.twimg.com/a/1382379960/images/resources/twitter-bird-white-on-blue.png"
+                ];
+    
+    [connectionsViewController progressWithStyle:SuProgressAnimationAtom
+                                  forConnections:^{
+                                      datas = [NSMutableDictionary new];
+                                      for (id urlstr in urls) {
+                                          id url = [NSURL URLWithString:urlstr];
+                                          id rq = [NSURLRequest requestWithURL:url];
+                                          [NSURLConnection connectionWithRequest:rq delegate:self];
+                                          datas[url] = [NSMutableData new];
+                                      }
+                                  }];
+    
+    //    [connectionsViewController SuProgressURLConnectionsCreatedInBlock:^{
+    //        __block int count = [urls count];
+    //        for (id urlstr in urls) {
+    //            id url = [NSURL URLWithString:urlstr];
+    //            id rq = [NSURLRequest requestWithURL:url];
+    //
+    //            [NSURLConnection sendAsynchronousRequest:rq queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+    //                [self appendText:[NSString stringWithFormat:@"Loaded: %@ (%d bytes)", url, [data length]]];
+    //                if (--count == 0)
+    //                    [self appendText:@"Done"];
+    //            }];
+    //        }
+    //    }]
 }
 
 - (void)demoWebView {
@@ -67,7 +100,7 @@
         webView.delegate = self;  // you must call the SuProgress method AFTER setting the webView's delegate
         [webViewController proxyProgressForWebView:webView];
     }
-
+    
     id url = [NSURL URLWithString:@"http://theverge.com"];
     id rq = [NSURLRequest requestWithURL:url];
     [webView loadRequest:rq];
@@ -76,7 +109,7 @@
 #ifdef _AFNETWORKING_
 - (void)demoAFNetworking {
     [self fadeOutKittens];
-
+    
     id url = [NSString stringWithFormat:@"http://placekitten.com/%d/%d", (200 + arc4random() % 120)*2, (200 + arc4random() % 120) * 2];
     url = [NSURL URLWithString:url];
     AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
@@ -104,8 +137,9 @@
     [self appendText:[NSString stringWithFormat:@"Loaded: %@ (%d bytes)", url, [datas[url] length]]];
     
     [datas removeObjectForKey:url];
-    if (datas.count == 0)
+    if (datas.count == 0) {
         [self appendText:@"Done"];
+    }
 }
 
 
@@ -118,7 +152,7 @@
 - (void)setup {
     // everything in here is for setting up the demo
     // you care about [self fly]
-
+    
     // disable the NSURLCache so that when you push Go
     // again after the first time, it behaves the same
     // obviously we are doing this for DEMONSTRATION
@@ -137,7 +171,7 @@
     
     UINavigationController *navigationController1 = [UINavigationController new];
     [navigationController1 pushViewController:connectionsViewController animated:NO];
-
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitle:@"Go" forState:UIControlStateNormal];
     [button sizeToFit];
@@ -157,11 +191,11 @@
     [webViewController.view addSubview:webView = [[UIWebView alloc] initWithFrame:webViewController.view.bounds]];
     webView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     webViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(demoWebView)];
-
+    
     UINavigationController *navigationController2 = [UINavigationController new];
     [navigationController2 pushViewController:webViewController animated:NO];
-
-  #ifdef _AFNETWORKING_
+    
+#ifdef _AFNETWORKING_
     afnetworkingController = [UIViewController new];
     afnetworkingController.title = @"AFNetworking Example";
     afnetworkingController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"AFNetworking" image:square selectedImage:square];
@@ -169,16 +203,16 @@
     
     UINavigationController *navigationController3 = [UINavigationController new];
     [navigationController3 pushViewController:afnetworkingController animated:NO];
-  #endif
-
+#endif
+    
     UITabBarController *tabs = [UITabBarController new];
     tabs.viewControllers = @[
-        navigationController1,
-        navigationController2,
-      #ifdef _AFNETWORKING_
-        navigationController3
-      #endif
-    ];
+                             navigationController1,
+                             navigationController2,
+#ifdef _AFNETWORKING_
+                             navigationController3
+#endif
+                             ];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];

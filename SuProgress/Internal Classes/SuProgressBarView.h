@@ -29,7 +29,6 @@ typedef NS_ENUM(NSUInteger, SuProgressBarViewState) {
 
 @interface SuProgressBarView : UIView <SuProgressManagerDelegate>
 
-@property (nonatomic, strong, readonly) SuProgressManager *manager;
 @property (nonatomic, readonly) CGFloat progress;
 
 @end
